@@ -106,7 +106,8 @@ KaldiRecognizer::KaldiRecognizer(Model *model, float sample_frequency, char cons
     InitRescoring();
 }
 
-KaldiRecognizer::KaldiRecognizer(Model *model, SpkModel *spk_model, float sample_frequency) : model_(model), spk_model_(spk_model), sample_frequency_(sample_frequency) {
+KaldiRecognizer::KaldiRecognizer(Model *model, float sample_frequency, SpkModel *spk_model) : model_(model), spk_model_(spk_model), sample_frequency_(sample_frequency) {
+
     model_->Ref();
     spk_model->Ref();
 
@@ -232,7 +233,19 @@ void KaldiRecognizer::SetMaxAlternatives(int max_alternatives) {
     max_alternatives_ = max_alternatives;
 }
 
-bool KaldiRecognizer::AcceptWaveform(const char *data, int len) {
+void KaldiRecognizer::SetSpkModel(SpkModel *spk_model)
+{
+    if (state_ == RECOGNIZER_RUNNING) {
+        KALDI_ERR << "Can't add speaker model to already running recognizer";
+        return;
+    }
+    spk_model_ = spk_model;
+    spk_model_->Ref();
+    spk_feature_ = new OnlineMfcc(spk_model_->spkvector_mfcc_opts);
+}
+
+bool KaldiRecognizer::AcceptWaveform(const char *data, int len)
+{
     Vector<BaseFloat> wave;
     wave.Resize(len / 2, kUndefined);
     for (int i = 0; i < len / 2; i++)
@@ -623,7 +636,15 @@ const char *KaldiRecognizer::FinalResult() {
     return last_result_.c_str();
 }
 
-const char *KaldiRecognizer::StoreEmptyReturn() {
+void KaldiRecognizer::Reset()
+{
+    decoder_->FinalizeDecoding();
+    StoreEmptyReturn();
+    state_ = RECOGNIZER_ENDPOINT;
+}
+
+const char *KaldiRecognizer::StoreEmptyReturn()
+{
     if (!max_alternatives_) {
         return StoreReturn("{\"text\": \"\"}");
     } else {

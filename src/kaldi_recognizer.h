@@ -40,36 +40,38 @@ enum KaldiRecognizerState {
 };
 
 class KaldiRecognizer {
-   public:
-    KaldiRecognizer(Model *model, float sample_frequency);
-    KaldiRecognizer(Model *model, SpkModel *spk_model, float sample_frequency);
-    KaldiRecognizer(Model *model, float sample_frequency, char const *grammar);
-    ~KaldiRecognizer();
-    void SetMaxAlternatives(int max_alternatives);
-    bool AcceptWaveform(const char *data, int len);
-    bool AcceptWaveform(const short *sdata, int len);
-    bool AcceptWaveform(const float *fdata, int len);
-    void SetEndpointMustContainNonsilence(int rule_id, bool must_contain_nonsilence);
-    void SetEndpointMinTrailingSilence(int rule_id, BaseFloat min_trailing_silence);
-    void SetEndpointMaxRelativeCost(int rule_id, BaseFloat max_relative_cost);
-    void SetEndpointMinUtteranceLength(int rule_id, BaseFloat min_utterance_length);
-    const char *Result();
-    const char *FinalResult();
-    const char *PartialResult();
+    public:
+        KaldiRecognizer(Model *model, float sample_frequency);
+        KaldiRecognizer(Model *model, float sample_frequency, SpkModel *spk_model);
+        KaldiRecognizer(Model *model, float sample_frequency, char const *grammar);
+        ~KaldiRecognizer();
+        void SetMaxAlternatives(int max_alternatives);
+        void SetSpkModel(SpkModel *spk_model);
+        bool AcceptWaveform(const char *data, int len);
+        bool AcceptWaveform(const short *sdata, int len);
+        bool AcceptWaveform(const float *fdata, int len);
+        void SetEndpointMustContainNonsilence(int rule_id, bool must_contain_nonsilence);
+        void SetEndpointMinTrailingSilence(int rule_id, BaseFloat min_trailing_silence);
+        void SetEndpointMaxRelativeCost(int rule_id, BaseFloat max_relative_cost);
+        void SetEndpointMinUtteranceLength(int rule_id, BaseFloat min_utterance_length);
+        const char* Result();
+        const char* FinalResult();
+        const char* PartialResult();
+        void Reset();
 
-   private:
-    void InitState();
-    void InitRescoring();
-    void CleanUp();
-    void UpdateSilenceWeights();
-    bool AcceptWaveform(Vector<BaseFloat> &wdata);
-    OnlineEndpointRule *GetOnlineEndpointRule(int id);
-    bool GetSpkVector(Vector<BaseFloat> &out_xvector, int *frames);
-    const char *GetResult();
-    const char *StoreEmptyReturn();
-    const char *StoreReturn(const string &res);
-    const char *MbrResult(CompactLattice &clat);
-    const char *NbestResult(CompactLattice &clat);
+    private:
+        void InitState();
+        void InitRescoring();
+        void CleanUp();
+        void UpdateSilenceWeights();
+        bool AcceptWaveform(Vector<BaseFloat> &wdata);
+        OnlineEndpointRule *GetOnlineEndpointRule(int id);
+        bool GetSpkVector(Vector<BaseFloat> &out_xvector, int *frames);
+        const char *GetResult();
+        const char *StoreEmptyReturn();
+        const char *StoreReturn(const string &res);
+        const char *MbrResult(CompactLattice &clat);
+        const char *NbestResult(CompactLattice &clat);
 
     Model *model_ = nullptr;
     SingleUtteranceNnet3Decoder *decoder_ = nullptr;

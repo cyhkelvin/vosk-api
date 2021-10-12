@@ -40,7 +40,7 @@ typedef struct VoskRecognizer VoskRecognizer;
 /** Loads model data from the file and returns the model object
  *
  * @param model_path: the path of the model on the filesystem
- @ @returns model object */
+ * @returns model object or NULL if problem occured */
 VoskModel *vosk_model_new(const char *model_path);
 
 /** Releases the model memory
@@ -60,7 +60,7 @@ int vosk_model_find_word(VoskModel *model, const char *word);
 /** Loads speaker model data from the file and returns the model object
  *
  * @param model_path: the path of the model on the filesystem
- * @returns model object */
+ * @returns model object or NULL if problem occured */
 VoskSpkModel *vosk_spk_model_new(const char *model_path);
 
 /** Releases the model memory
@@ -81,8 +81,12 @@ void vosk_spk_model_free(VoskSpkModel *model);
  *  @param sample_rate The sample rate of the audio you going to feed into the recognizer.
  *                     Make sure this rate matches the audio content, it is a common
  *                     issue causing accuracy problems.
+<<<<<<< HEAD
 >>>>>>> 646af3f (Explain more about sample rate in constructor)
  *  @returns recognizer object */
+=======
+ *  @returns recognizer object or NULL if problem occured */
+>>>>>>> 4ccdda4 (Extend documentation)
 VoskRecognizer *vosk_recognizer_new(VoskModel *model, float sample_rate);
 
 /** Creates the recognizer object with speaker recognition
@@ -96,7 +100,7 @@ VoskRecognizer *vosk_recognizer_new(VoskModel *model, float sample_rate);
  *                     Make sure this rate matches the audio content, it is a common
  *                     issue causing accuracy problems.
  *  @param spk_model speaker model for speaker identification
- *  @returns recognizer object */
+ *  @returns recognizer object or NULL if problem occured */
 VoskRecognizer *vosk_recognizer_new_spk(VoskModel *model, float sample_rate, VoskSpkModel *spk_model);
 
 /** Creates the recognizer object with the phrase list
@@ -117,7 +121,7 @@ VoskRecognizer *vosk_recognizer_new_spk(VoskModel *model, float sample_rate, Vos
  *  @param grammar The string with the list of phrases to recognize as JSON array of strings,
  *                 for example "["one two three four five", "[unk]"]".
  *
- *  @returns recognizer object */
+ *  @returns recognizer object or NULL if problem occured */
 VoskRecognizer *vosk_recognizer_new_grm(VoskModel *model, float sample_rate, const char *grammar);
 
 
@@ -188,7 +192,9 @@ void vosk_recognizer_set_words(VoskRecognizer *recognizer, int words);
  *
  *  @param data - audio data in PCM 16-bit mono format
  *  @param length - length of the audio data
- *  @returns true if silence is occured and you can retrieve a new utterance with result method */
+ *  @returns 1 if silence is occured and you can retrieve a new utterance with result method 
+ *           0 if decoding continues
+ *           -1 if exception occured */
 int vosk_recognizer_accept_waveform(VoskRecognizer *recognizer, const char *data, int length);
 
 /** Same as above but the version with the short data for language bindings where you have

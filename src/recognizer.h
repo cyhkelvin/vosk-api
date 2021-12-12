@@ -32,19 +32,19 @@
 
 using namespace kaldi;
 
-enum KaldiRecognizerState {
+enum RecognizerState {
     RECOGNIZER_INITIALIZED,
     RECOGNIZER_RUNNING,
     RECOGNIZER_ENDPOINT,
     RECOGNIZER_FINALIZED
 };
 
-class KaldiRecognizer {
+class Recognizer {
     public:
-        KaldiRecognizer(Model *model, float sample_frequency);
-        KaldiRecognizer(Model *model, float sample_frequency, SpkModel *spk_model);
-        KaldiRecognizer(Model *model, float sample_frequency, char const *grammar);
-        ~KaldiRecognizer();
+        Recognizer(Model *model, float sample_frequency);
+        Recognizer(Model *model, float sample_frequency, SpkModel *spk_model);
+        Recognizer(Model *model, float sample_frequency, char const *grammar);
+        ~Recognizer();
         void SetMaxAlternatives(int max_alternatives);
         void SetSpkModel(SpkModel *spk_model);
         void SetWords(bool words);
@@ -85,17 +85,6 @@ class KaldiRecognizer {
     SpkModel *spk_model_ = nullptr;
     OnlineBaseFeature *spk_feature_ = nullptr;
 
-<<<<<<< HEAD
-    // Rescoring
-    fst::ArcMapFst<fst::StdArc, kaldi::LatticeArc, fst::StdToLatticeMapper<kaldi::BaseFloat>> *lm_fst_ = nullptr;
-
-    // RNNLM rescoring
-    kaldi::rnnlm::RnnlmComputeStateInfo *info = nullptr;
-    fst::ScaleDeterministicOnDemandFst *lm_to_subtract_det_scale = nullptr;
-    fst::BackoffDeterministicOnDemandFst<fst::StdArc> *lm_to_subtract_det_backoff = nullptr;
-    kaldi::rnnlm::KaldiRnnlmDeterministicFst *lm_to_add_orig = nullptr;
-    fst::DeterministicOnDemandFst<fst::StdArc> *lm_to_add = nullptr;
-=======
         // Rescoring
         fst::ArcMapFst<fst::StdArc, LatticeArc, fst::StdToLatticeMapper<BaseFloat> > *lm_to_subtract_ = nullptr;
         kaldi::ConstArpaLmDeterministicFst *carpa_to_add_ = nullptr;
@@ -104,7 +93,6 @@ class KaldiRecognizer {
         kaldi::rnnlm::KaldiRnnlmDeterministicFst* rnnlm_to_add_ = nullptr;
         fst::DeterministicOnDemandFst<fst::StdArc> *rnnlm_to_add_scale_ = nullptr;
         kaldi::rnnlm::RnnlmComputeStateInfo *rnnlm_info_ = nullptr;
->>>>>>> e2af710 (Rework rescoring for faster and more accurate results)
 
 
         // Other
@@ -117,8 +105,8 @@ class KaldiRecognizer {
     int64 samples_processed_;
     int64 samples_round_start_;
 
-    KaldiRecognizerState state_;
-    string last_result_;
+        RecognizerState state_;
+        string last_result_;
 };
 
 #endif /* VOSK_KALDI_RECOGNIZER_H */

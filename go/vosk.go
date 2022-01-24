@@ -115,6 +115,26 @@ func (r *VoskRecognizer) AcceptWaveform(buffer []byte) int {
 	return int(i)
 }
 
+// SetEndpointMustContainNonsilence modified endpoint rule of recognizer must contain nonsilence
+func (r *VoskRecognizer) SetEndpointMustContainNonsilence(rule_id int, must_contain_nonsilence bool) {
+	C.vosk_recognizer_set_endpoint_must_contain_silence(r.rec, C.int(rule_id), C.bool(must_contain_nonsilence))
+}
+
+// SetEndpointMinTrailingSilence set minimum trailing silence in end point rule of recognizer
+func (r *VoskRecognizer) SetEndpointMinTrailingSilence(rule_id int, min_trailing_silence float64) {
+	C.vosk_recognizer_set_endpoint_min_trainling_silence(r.rec, C.int(rule_id), C.float(min_trailing_silence))
+}
+
+// SetEndpointMaxRelativeCost set maximum relative cost in end point rule of recognizer
+func (r *VoskRecognizer) SetEndpointMaxRelativeCost(rule_id int, max_relative_cost float64) {
+	C.vosk_recognizer_set_endpoint_max_relative_cost(r.rec, C.int(rule_id), C.float(max_relative_cost))
+}
+
+// SetEndpointMinUtteranceLength set minimum utterance length in end point rule of recognizer
+func SetEndpointMinUtteranceLength(rule_id int, min_utterance_length float64) {
+    C.vosk_recognizer_set_endpoint_min_utterance_length(r.rec, C.int(rule_id), C.float(min_utterance_length))
+}
+
 // Result returns a speech recognition result.
 func (r *VoskRecognizer) Result() []byte {
 	return []byte(C.GoString(C.vosk_recognizer_result(r.rec)))

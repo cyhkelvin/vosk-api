@@ -78,20 +78,12 @@ void vosk_spk_model_free(VoskSpkModel *model);
 /** Creates the recognizer object
  *
  *  The recognizers process the speech and return text using shared model data
-<<<<<<< HEAD
- *  @param sample_rate The sample rate of the audio you going to feed into the recognizer
-=======
  *  @param model       VoskModel containing static data for recognizer. Model can be
  *                     shared across recognizers, even running in different threads.
  *  @param sample_rate The sample rate of the audio you going to feed into the recognizer.
  *                     Make sure this rate matches the audio content, it is a common
  *                     issue causing accuracy problems.
-<<<<<<< HEAD
->>>>>>> 646af3f (Explain more about sample rate in constructor)
- *  @returns recognizer object */
-=======
  *  @returns recognizer object or NULL if problem occured */
->>>>>>> 4ccdda4 (Extend documentation)
 VoskRecognizer *vosk_recognizer_new(VoskModel *model, float sample_rate);
 
 /** Creates the recognizer object with speaker recognition

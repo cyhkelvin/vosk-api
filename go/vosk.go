@@ -117,7 +117,7 @@ func (r *VoskRecognizer) AcceptWaveform(buffer []byte) int {
 
 // SetEndpointMustContainNonsilence modified endpoint rule of recognizer must contain nonsilence
 func (r *VoskRecognizer) SetEndpointMustContainNonsilence(rule_id int, must_contain_nonsilence bool) {
-	C.vosk_recognizer_set_endpoint_must_contain_silence(r.rec, C.int(rule_id), C.bool(must_contain_nonsilence))
+	C.vosk_recognizer_set_endpoint_must_contain_silence(r.rec, C.int(rule_id), must_contain_nonsilence)
 }
 
 // SetEndpointMinTrailingSilence set minimum trailing silence in end point rule of recognizer

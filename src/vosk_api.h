@@ -202,7 +202,7 @@ int vosk_recognizer_accept_waveform_s(VoskRecognizer *recognizer, const short *d
  *  audio as array of floats */
 int vosk_recognizer_accept_waveform_f(VoskRecognizer *recognizer, const float *data, int length);
 
-void vosk_recognizer_set_endpoint_must_contain_silence(VoskRecognizer *recognizer, int rule_id, _Bool must_contain_nonsilence);
+void vosk_recognizer_set_endpoint_must_contain_silence(VoskRecognizer *recognizer, int rule_id, bool must_contain_nonsilence);
 void vosk_recognizer_set_endpoint_min_trainling_silence(VoskRecognizer *recognizer, int rule_id, float min_trailing_silence);
 void vosk_recognizer_set_endpoint_max_relative_cost(VoskRecognizer *recognizer, int rule_id, float max_relative_cost);
 void vosk_recognizer_set_endpoint_min_utterance_length(VoskRecognizer *recognizer, int rule_id, float min_utterance_length);

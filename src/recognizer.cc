@@ -576,8 +576,6 @@ const char *Recognizer::NbestResult(CompactLattice &clat)
     json::JSON obj;
     std::stringstream ss;
     for (int k = 0; k < nbest_lats.size(); k++) {
-        Lattice nlat = nbest_lats[k];
-
       Lattice nlat = nbest_lats[k];
 
       CompactLattice nclat;

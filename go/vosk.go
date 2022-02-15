@@ -131,7 +131,7 @@ func (r *VoskRecognizer) SetEndpointMaxRelativeCost(rule_id int, max_relative_co
 }
 
 // SetEndpointMinUtteranceLength set minimum utterance length in end point rule of recognizer
-func SetEndpointMinUtteranceLength(rule_id int, min_utterance_length float64) {
+func (r *VoskRecognizer)SetEndpointMinUtteranceLength(rule_id int, min_utterance_length float64) {
     C.vosk_recognizer_set_endpoint_min_utterance_length(r.rec, C.int(rule_id), C.float(min_utterance_length))
 }
 

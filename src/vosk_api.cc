@@ -137,9 +137,9 @@ int vosk_recognizer_accept_waveform_f(VoskRecognizer *recognizer, const float *d
     }
 }
 
-void vosk_recognizer_set_endpoint_must_contain_silence(VoskRecognizer *recognizer, int rule_id, bool must_contain_nonsilence) {
-    ((Recognizer *)(recognizer))->SetEndpointMustContainNonsilence(rule_id, must_contain_nonsilence);
-}
+// void vosk_recognizer_set_endpoint_must_contain_silence(VoskRecognizer *recognizer, int rule_id, bool must_contain_nonsilence) {
+//     ((Recognizer *)(recognizer))->SetEndpointMustContainNonsilence(rule_id, must_contain_nonsilence);
+// }
 
 void vosk_recognizer_set_endpoint_min_trainling_silence(VoskRecognizer *recognizer, int rule_id, float min_trailing_silence) {
     ((Recognizer *)(recognizer))->SetEndpointMinTrailingSilence(rule_id, min_trailing_silence);
